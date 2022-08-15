@@ -1,14 +1,22 @@
 import React from 'react';
 import { JitsiMeeting } from '@jitsi/react-sdk';
 
+const DOMAIN_NAME = "meet.jit.si";
+
 export const Meeting = ({ meetingId }) => {
     if (!meetingId) return;
+
+    let roomName = meetingId;
+    if (meetingId.indexOf(DOMAIN_NAME) !== -1) {
+        const splits = meetingId.split(DOMAIN_NAME);
+        roomName = splits[splits.length - 1];
+    }
 
     return (
         <div style={{ position: 'absolute', top: 0, left: 0 }}>
             <JitsiMeeting
                 // domain="meet.jit.si"
-                roomName={meetingId}
+                roomName={roomName}
                 configOverwrite={{
                     startWithAudioMuted: true,
                     disableModeratorIndicator: true,
